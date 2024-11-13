@@ -291,7 +291,7 @@ Queue<T>& Queue<T>::operator=(const Queue& other)
 {
     if (this != &other)
     {
-        List<T>::operator=(other); // Используем оператор присваивания из List
+        List<T>::operator=(other);
         tail = other.tail;
     }
     return *this;
@@ -302,7 +302,7 @@ Queue<T>& Queue<T>::operator=(Queue&& other) noexcept
 {
     if (this != &other)
     {
-        List<T>::operator=(std::move(other)); // Используем оператор перемещения из List
+        List<T>::operator=(std::move(other));
         tail = other.tail;
         other.tail = nullptr;
     }
