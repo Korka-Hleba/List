@@ -22,7 +22,8 @@ public:
     virtual size_t Size() const = 0;
 
 protected:
-    struct Node {
+    struct Node
+    {
         T data;
         Node* next;
         Node(const T& value) : data(value), next(nullptr) {}
@@ -265,14 +266,17 @@ void Stack<T>::Print() const
 //реализация для Queue
 
 template <typename T>
-Queue<T>::Queue() : List<T>(), tail(nullptr) {}
+Queue<T>::Queue() : List<T>(), tail(nullptr){}
 
 template <typename T>
 Queue<T>::Queue(const Queue& other) : List<T>(other), tail(nullptr)
 {
-    if (other.head == nullptr) return;
-
-    typename List<T>::Node* temp = other.head;
+    if (other.head == nullptr)
+    {
+        return;
+    }
+    this->CopyFrom(other);
+    typename List<T>::Node* temp = this->head;
     while (temp->next)
     {
         temp = temp->next;
@@ -292,7 +296,13 @@ Queue<T>& Queue<T>::operator=(const Queue& other)
     if (this != &other)
     {
         List<T>::operator=(other);
-        tail = other.tail;
+
+        typename List<T>::Node* temp = this->head;
+        while (temp && temp->next)
+        {
+            temp = temp->next;
+        }
+        tail = temp;
     }
     return *this;
 }

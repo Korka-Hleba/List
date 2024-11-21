@@ -1,5 +1,5 @@
 #include <iostream>
-#include "lists.h"
+#include "Lists.h"
 
 using namespace std;
 
@@ -42,13 +42,22 @@ int main()
 
     std::cout << "Stack size: " << stack.Size() << std::endl;
 
-    Stack<int> copied_stack = stack;
+    Stack<int> copied_stack(stack);
     std::cout << "Copied stack: " << std::endl;
     copied_stack.Print();
+    copied_stack.Push(7);
+    copied_stack.Print();
+    stack.Print();
+
 
     Stack<int> moved_stack = std::move(stack);
     std::cout << "Moved stack: " << std::endl;
     moved_stack.Print();
+    stack.Print();
+    moved_stack.Push(5);
+    moved_stack.Print();
+
+
 
     std::cout << "Enter size of queue : ";
     std::cin >> queue_size;
@@ -83,10 +92,17 @@ int main()
     Queue<int> copied_queue = queue;
     std::cout << "Copied queue: " << std::endl;
     copied_queue.Print();
+    copied_queue.Push(7);
+    copied_queue.Print();
+    queue.Print();
 
     Queue<int> moved_queue = std::move(queue);
     std::cout << "Moved queue: " << std::endl;
     moved_queue.Print();
+    moved_queue.Push(5);
+    moved_queue.Print();
+    queue.Print();
+
 
     return 0;
 }
