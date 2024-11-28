@@ -18,6 +18,7 @@ public:
     virtual void Push(const T& value) = 0;
     virtual void Pop() = 0;
     virtual T& GetFront() = 0;
+    virtual const T& GetFront() const = 0;
     virtual bool IsEmpty() const = 0;
     virtual size_t Size() const = 0;
 
@@ -31,10 +32,14 @@ protected:
 
     Node* head;
     size_t list_size;
-
     virtual void Print() const;
-    void CopyFrom(const List& other);
+    void ProtectedCopyFrom(const List& other);
+
+
+private:
     void Clear();
+    void CopyFrom(const List& other);
+
 };
 
 
@@ -117,6 +122,12 @@ void List<T>::CopyFrom(const List& other)
 }
 
 template <typename T>
+void List<T>::ProtectedCopyFrom(const List& other)
+{
+    CopyFrom(other);
+}
+
+template <typename T>
 void List<T>::Clear()
 {
     while (head)
@@ -143,12 +154,17 @@ public:
     void Print() const override;
     void Pop() override;
     T& GetFront() override;
+    const T& GetFront() const override;
     bool IsEmpty() const override;
     size_t Size() const override;
+
 
 private:
     using List<T>::head;
     using List<T>::list_size;
+    void CopyFrom(const Stack& other);
+    void Clear();
+
 };
 
 template <typename T>
@@ -166,13 +182,16 @@ public:
     void Print() const override;
     void Pop() override;
     T& GetFront() override;
+    const T& GetFront() const override;
     bool IsEmpty() const override;
     size_t Size() const override;
-
 private:
     typename List<T>::Node* tail;
     using List<T>::head;
     using List<T>::list_size;
+
+    void CopyFrom(const Queue<T>& other);
+    void Clear();
 };
 
 
@@ -233,6 +252,13 @@ void Stack<T>::Pop()
 
 template <typename T>
 T& Stack<T>::GetFront()
+{
+    if (IsEmpty()) throw std::runtime_error("Stack is empty");
+    return this->head->data;
+}
+
+template <typename T>
+const T& Stack<T>::GetFront() const
 {
     if (IsEmpty()) throw std::runtime_error("Stack is empty");
     return this->head->data;
@@ -363,6 +389,12 @@ T& Queue<T>::GetFront()
     if (IsEmpty()) throw std::runtime_error("Queue is empty");
     return this->head->data;
 }
+template <typename T>
+const T& Queue<T>::GetFront() const
+{
+    if (IsEmpty()) throw std::runtime_error("Queue is empty");
+    return this->head->data;
+}
 
 template <typename T>
 bool Queue<T>::IsEmpty() const
@@ -386,6 +418,18 @@ void Queue<T>::Print() const
         temp = temp->next;
     }
     std::cout << std::endl;
+}
+
+template <typename T>
+void Queue<T>::CopyFrom(const Queue<T>& other)
+{
+    this->ProtectedCopyFrom(other);
+    typename List<T>::Node* temp = this->head;
+    while (temp && temp->next)
+    {
+        temp = temp->next;
+    }
+    tail = temp;
 }
 
 #endif // LISTS_H_INCLUDED
