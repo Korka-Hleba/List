@@ -96,6 +96,10 @@ int main()
     copied_queue.Print();
     queue.Print();
 
+    std::cout << "Copied 1 queue: " << std::endl;
+
+    Queue<int> q1(queue);
+    q1.Print();
     Queue<int> moved_queue = std::move(queue);
     std::cout << "Moved queue: " << std::endl;
     moved_queue.Print();

@@ -301,7 +301,6 @@ Queue<T>::Queue(const Queue& other) : List<T>(other), tail(nullptr)
     {
         return;
     }
-    this->CopyFrom(other);
     typename List<T>::Node* temp = this->head;
     while (temp->next)
     {
